@@ -1,6 +1,6 @@
 manifest:
   self:
-    path: .
+    path: asc
 
   remotes:
     - name: zephyrproject-rtos
