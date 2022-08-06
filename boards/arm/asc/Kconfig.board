@@ -1,0 +1,3 @@
+config BOARD_ASC
+	bool "ASC Board"
+	depends on SOC_STM32F407XG

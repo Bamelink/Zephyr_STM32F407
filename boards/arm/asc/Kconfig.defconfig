@@ -1,0 +1,6 @@
+if BOARD_ASC
+
+config BOARD
+	default "asc"
+
+endif # BOARD_ASC
