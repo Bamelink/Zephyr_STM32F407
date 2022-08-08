@@ -19,7 +19,9 @@
      };
  
      aliases {
-
+        fcan = &can1;
+        scan = &can2;
+        dlcan = &mcp2515;
      };
  };
  
@@ -86,6 +88,31 @@
      bus-speed = <500000>;
      status = "okay";
  };
+
+ &spi3 {
+    pinctrl-0 = <&spi3_sck_pc10
+		     &spi3_miso_pc11 &spi3_mosi_pc12>;
+	pinctrl-names = "default";
+	status = "okay";
+	cs-gpios = <&gpiod 0 GPIO_ACTIVE_LOW>;
+
+    mcp2515: can3@0 {
+		compatible = "microchip,mcp2515";
+		spi-max-frequency = <1000000>;
+		int-gpios = <&gpioa 10 GPIO_ACTIVE_LOW>; /* D2 */
+		status = "okay";
+		reg = <0x0>;
+		osc-freq = <16000000>;
+		bus-speed = <125000>;
+		sjw = <1>;
+		sample-point = <875>;
+
+		can-transceiver {
+			max-bitrate = <1000000>;
+		};
+	};
+};
+
 
  &mac {
 	status = "okay";
