@@ -27,7 +27,7 @@ set(external_project_cflags
     )
 
 set(external_project_cxxflags
-    "${includes_cxx} ${definitions_cxx} ${options_cxx} ${system_includes_cxx}"
+    "${includes_cxx} ${definitions_cxx} ${options_cxx} ${system_includes_cxx}" 
     )
 
 include(ExternalProject)
@@ -39,12 +39,12 @@ externalproject_add(libmicroros_project
     CONFIGURE_COMMAND ""
     BUILD_COMMAND
         ${submake} -f libmicroros.mk
-            X_CFLAGS=${external_project_cflags}
-            X_CXXFLAGS=${external_project_cxxflags}
-            X_CC=${CMAKE_C_COMPILER}
-            X_AR=${CMAKE_AR}
-            X_RANLIB=${CMAKE_RANLIB}
-            X_CXX=${CMAKE_CXX_COMPILER}
+            CFLAGS=${external_project_cflags}
+            CXXFLAGS=${external_project_cxxflags}
+            CC=${CMAKE_C_COMPILER}
+            AR=${CMAKE_AR}
+            RANLIB=${CMAKE_RANLIB}
+            CXX=${CMAKE_CXX_COMPILER}
             COMPONENT_PATH=${MICROROS_DIR}
             ZEPHYR_BASE=${ZEPHYR_BASE}
             PROJECT_BINARY_DIR=${PROJECT_BINARY_DIR}
@@ -58,21 +58,6 @@ zephyr_interface_library_named(microros)
 add_dependencies(microros libmicroros)
 add_dependencies(microros libmicroros_project)
 target_include_directories(microros INTERFACE ${MICROROS_DIR}/include)
-
-execute_process(
-    COMMAND
-        make -f libmicroros.mk get_package_names
-            COMPONENT_PATH=${MICROROS_DIR}
-    WORKING_DIRECTORY
-        ${MICROROS_DIR}
-    OUTPUT_VARIABLE
-        INCLUDE_ROS2_PACKAGES
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-
-foreach(pkg ${INCLUDE_ROS2_PACKAGES})
-    target_include_directories(microros INTERFACE ${MICROROS_DIR}/include/${pkg})
-endforeach()
 
 # micro-ROS transport library
 
@@ -100,8 +85,8 @@ add_dependencies(microros_transports libmicroros)
 
 # Cleaning
 
-set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES
-    ${MICROROS_DIR}/include
+set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES 
+    ${MICROROS_DIR}/include 
     ${MICROROS_DIR}/configured_colcon.meta
     ${MICROROS_DIR}/zephyr_toolchain.cmake
     )
