@@ -1,60 +1,35 @@
 # Zephyr_STM32F407_ASC
 
-This repository contains a Zephyr example asc application. Some of the features demonstrated in this example are:
-
-- Basic [Zephyr application][app_dev] skeleton
-- [Zephyr workspace applications][workspace_app]
-- [West T2 topology][west_t2]
-- [Custom boards][board_porting]
-- Custom [devicetree bindings][bindings]
-- Out-of-tree [drivers][drivers]
-- Example CI configuration (using Github Actions)
-
-This repository is versioned together with the [Zephyr main tree][zephyr]. This
-means that every time that Zephyr is tagged, this repository is tagged as well
-with the same version number, and the [manifest](west.yml) entry for `zephyr`
-will point to the corresponding Zephyr tag. For example, `example-application`
-v2.6.0 will point to Zephyr v2.6.0. Note that the `main` branch will always
-point to the development branch of Zephyr, also `main`.
-
-[app_dev]: https://docs.zephyrproject.org/latest/develop/application/index.html
-[workspace_app]: https://docs.zephyrproject.org/latest/develop/application/index.html#zephyr-workspace-app
-[west_t2]: https://docs.zephyrproject.org/latest/develop/west/workspaces.html#west-t2
-[board_porting]: https://docs.zephyrproject.org/latest/guides/porting/board_porting.html
-[bindings]: https://docs.zephyrproject.org/latest/guides/dts/bindings.html
-[drivers]: https://docs.zephyrproject.org/latest/reference/drivers/index.html
-[zephyr]: https://github.com/zephyrproject-rtos/zephyr
+This repository contains a Zephyr example application using MicroRos via USB.
 
 ## Getting Started
 
 Before getting started, make sure you have a proper Zephyr development
-environment. You can follow the official
-[Zephyr Getting Started Guide](https://docs.zephyrproject.org/latest/getting_started/index.html).
+environment. Zephyr version 3.1.0 and compiler version 0.14.2 is requiered.
+Follow [this link](https://docs.zephyrproject.org/3.1.0/develop/getting_started/index.html) to get started. Insted of inistializing Zephyr, you can initialize this Repo with the command below.
 
 ### Initialization
-
+#### NOTE: IF YOU ALREADY HAVE A ZEPHYR INSTANCE WITH THE RIGHT VERSION YOU CAN SCIP THIS STEP!
 The first step is to initialize the workspace folder (``my-workspace``) where
-the ``example-application`` and all Zephyr modules will be cloned. You can do
+the ``app`` and all Zephyr modules will be cloned. You can do
 that by running:
 
 ```shell
 # initialize my-workspace for the example-application (main branch)
-west init -m https://github.com/Bamelink/Zephyr_STM32F407 --mr main asc
+west init -m https://github.com/Bamelink/Zephyr_STM32F407 --mr main my-workspace
 # update Zephyr modules
-cd asc
+cd my-workspace
 west update
 ```
 
 ### Build & Run
-
-The application can be built by running:
-
+If you have not initialized Zephyr with this Repo but instead used your existing instance, make sure to soure it:
 ```shell
-west build -b asc app -p
+source ~/zephyrproject/zephyr/zephyr-env.sh
 ```
 
-Once you have built the application you can flash it by running:
+To build and run this Demo, a build script is provided. Type ./build.sh -h to get the full command list. The following command will build for the f4 discovery board and directy flash it:
 
 ```shell
-west flash
+./build.sh -b stm32f4_disco -f
 ```
