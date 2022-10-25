@@ -1,19 +1,25 @@
 #include <uxr/client/transport.h>
 
+#include <version.h>
+
+#if ZEPHYR_VERSION_CODE >= ZEPHYR_VERSION(3,1,0)
+#include <zephyr/kernel.h>
+#include <zephyr/unistd.h>
+#include <zephyr/arpa/inet.h>
+#include <zephyr/netdb.h>
+#else
 #include <zephyr.h>
-
 #include <unistd.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdbool.h>
-
-#include <microros_transports.h>
-
 #include <arpa/inet.h>
-#include <unistd.h>
+#include <netdb.h>
+#endif
+
+#include <stdio.h>
+#include <stdbool.h>
 #include <string.h>
 #include <errno.h>
-#include <netdb.h>
+
+#include <microros_transports.h>
 
 bool zephyr_transport_open(struct uxrCustomTransport * transport){
     zephyr_transport_params_t * params = (zephyr_transport_params_t*) transport->args;

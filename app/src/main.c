@@ -1,8 +1,18 @@
+#include <version.h>
+
+#if ZEPHYR_VERSION_CODE >= ZEPHYR_VERSION(3,1,0)
+#include <zephyr/zephyr.h>
+#include <zephyr/device.h>
+#include <zephyr/devicetree.h>
+#include <zephyr/drivers/gpio.h>
+#include <zephyr/posix/time.h>
+#else
 #include <zephyr.h>
-#include <time.h>
 #include <device.h>
 #include <devicetree.h>
 #include <drivers/gpio.h>
+#include <posix/time.h>
+#endif
 
 #include <rcl/rcl.h>
 #include <rcl/error_handling.h>
@@ -33,7 +43,7 @@ void main(void)
 {
 	rmw_uros_set_custom_transport(
 		MICRO_ROS_FRAMING_REQUIRED,
-		(void *) &default_params,
+		(void *) DEVICE_DT_GET(DT_ALIAS(uros_serial_port)),
 		zephyr_transport_open,
 		zephyr_transport_close,
 		zephyr_transport_write,
