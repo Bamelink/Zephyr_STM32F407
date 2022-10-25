@@ -10,3 +10,5 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 build
+build_stm32f4
+build_rpi_pico
